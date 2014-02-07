@@ -4,14 +4,18 @@ import nltk
 import sys
 import getopt
 
-NGRAM_LEVEL = 4
-FOREIGN_THRESHOLD = 0.8
+# defines the ngram size
+NGRAM_LEVEL = 3 
+
+# tolerance of accepting unappeared ngram ( 0.8 means if 80% of ngrams in the sentence are not in the LM, the sentence is identified as an unknown language)
+FOREIGN_THRESHOLD = 0.8 
+
+# if ngrams are padded with SSS
+IS_PAD = True
+
 
 def build_LM(in_file):
-    """
-    build language models for each label
-    each line in in_file contains a label and an URL separated by a tab(\t)
-    """
+    
     print 'building language models...'
 
     def process_file(in_file):
@@ -29,7 +33,10 @@ def build_LM(in_file):
         for key, value in source.items():
             ngram = []
             for line in value:
-                ngram.extend(nltk.ngrams(line.strip(), NGRAM_LEVEL))
+                if IS_PAD:
+                    ngram.extend(nltk.ngrams(line.strip(), NGRAM_LEVEL, pad_left=True, pad_right=True, pad_symbol='SSS'))
+                else:
+                    ngram.extend(nltk.ngrams(line.strip(), NGRAM_LEVEL))
             ngram_set[key] = ngram
         return ngram_set
 
