@@ -5,7 +5,7 @@ import sys
 import getopt
 
 # defines the ngram size
-NGRAM_LEVEL = 3 
+NGRAM_LEVEL = 4 
 
 # tolerance of accepting unappeared ngram ( 0.8 means if 80% of ngrams in the sentence are not in the LM, the sentence is identified as an unknown language)
 FOREIGN_THRESHOLD = 0.8 
