@@ -80,16 +80,14 @@ def build_LM(in_file):
     # Pls implement your code in below
     
 def test_LM(in_file, out_file, LM):
-    """
-    test the language models on new URLs
-    each line of in_file contains an URL
-    you should print the most probable label for each URL into out_file
-    """
+
     print "testing language models..."
 
-
     def break_line(line):
-        units = nltk.ngrams(line, NGRAM_LEVEL)
+        if IS_PAD:
+            units = nltk.ngrams(line, NGRAM_LEVEL, pad_left=True, pad_right=True, pad_symbol='SSS')
+        else:
+            units = nltk.ngrams(line, NGRAM_LEVEL)
         return units
 
     def init_results():
